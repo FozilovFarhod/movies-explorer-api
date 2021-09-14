@@ -6,6 +6,7 @@ const userRouter = require('./users');
 const moviesRouter = require('./movies');
 const auth = require('../middlewares/auth');
 const { login, logOut, createUser } = require('../controllers/users');
+const NotFoundError = require('../errors/NotFoundError');
 
 router.use(bodyParser.json());
 router.use(cookieParser());
@@ -16,5 +17,8 @@ router.use(auth);
 router.post('/signout', logOut);
 router.use('/users', userRouter);
 router.use('/movies', moviesRouter);
+router.all('*', (req, res, next) => {
+  next(new NotFoundError('Ресурс не найден'));
+});
 
 module.exports = router;
