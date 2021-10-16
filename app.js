@@ -3,12 +3,14 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const helmet = require('helmet');
 const { errors } = require('celebrate');
+const cors = require('./middlewares/cors');
 const router = require('./routes/index');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const { PORT = 3000, MONGO_URL = 'mongodb://localhost:27017/moviesdb' } = process.env;
 
 const app = express();
+app.use(cors);
 
 mongoose.connect(MONGO_URL, {
   useUnifiedTopology: true,
